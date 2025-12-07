@@ -1,0 +1,51 @@
+services:
+  # ---------- Python tiles / gribapi ----------
+  gribapi:
+    container_name: paint-gribapi
+    build:
+      context: ./paint-tiles/dockerfiles/gribapi
+    volumes:
+      - ${GRIBAPI_PUBLIC}:/gribapi/public
+      - ${GRIBAPI_LOGS}:/gribapi/logs
+      - ${GRIBAPI_SRC}:/gribapi
+    environment:
+      - PARAMS=${PARAMS}
+    restart: unless-stopped
+
+  # ---------- Backend (Node.js) ----------
+  backend:
+    container_name: paint-backend
+    build:
+      context: ./paint-nodejs
+      args:
+        - NODE_VERSION=${NODE_VERSION}
+    working_dir: /app
+    command: npm start
+    environment:
+      - NODE_ENV=production
+      - MONGO_CONNECTION=${MONGO_CONNECTION}
+      - MONGO_SECRET_KEY=${MONGO_SECRET_KEY}
+    ports:
+      - "${BACKEND_PORT}:8000"
+    depends_on:
+      - gribapi
+    restart: unless-stopped
+
+  # ---------- Frontend (Next.js) ----------
+  frontend:
+    container_name: paint-frontend
+    build:
+      context: ./paint-nextjs
+      args:
+        - NODE_VERSION=${NODE_VERSION}
+    working_dir: /app
+    command: npm start
+    environment:
+      - NODE_ENV=production
+      - BACKEND_HTTP_URL=${BACKEND_HTTP_URL}
+      - BACKEND_WS_URL=${BACKEND_WS_URL}
+    ports:
+      - "${FRONTEND_PORT}:3000"
+    depends_on:
+      - backend
+    restart: unless-stopped
