@@ -25,14 +25,14 @@ services:
       - NODE_ENV=production
       - MONGO_CONNECTION=${MONGO_CONNECTION}
       - SECRET_KEY=${SECRET_KEY}
-      - GALLERY_PATH=${GALLERY_PATH}
-      - IMAGES_PATH=${IMAGES_PATH}
     ports:
       - "${BACKEND_PORT}:8000"
     depends_on:
       - gribapi
     restart: unless-stopped
-
+    volumes:
+      - ${GALLERY_PATH}:./gallary
+      - ${IMAGES_PATH}:./images
   # ---------- Frontend (Next.js) ----------
   frontend:
     container_name: paint-frontend
