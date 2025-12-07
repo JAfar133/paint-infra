@@ -24,7 +24,9 @@ services:
     environment:
       - NODE_ENV=production
       - MONGO_CONNECTION=${MONGO_CONNECTION}
-      - MONGO_SECRET_KEY=${MONGO_SECRET_KEY}
+      - SECRET_KEY=${MONGO_SECRET_KEY}
+      - GALLERY_PATH=${GALLERY_PATH}
+      - IMAGES_PATH=${IMAGES_PATH}
     ports:
       - "${BACKEND_PORT}:8000"
     depends_on:
@@ -42,8 +44,8 @@ services:
     command: npm start
     environment:
       - NODE_ENV=production
-      - BACKEND_HTTP_URL=${BACKEND_HTTP_URL}
-      - BACKEND_WS_URL=${BACKEND_WS_URL}
+      - NEXT_PUBLIC_BACKEND_HTTP_URL=${BACKEND_HTTP_URL}
+      - NEXT_PUBLIC_BACKEND_WS_URL=${BACKEND_WS_URL}
     ports:
       - "${FRONTEND_PORT}:3000"
     depends_on:
