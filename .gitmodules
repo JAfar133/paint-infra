@@ -1,9 +1,12 @@
 [submodule "paint-nextjs"]
 	path = paint-nextjs
 	url = https://github.com/JAfar133/paint-nextjs
+	branch = main
 [submodule "paint-nodejs"]
 	path = paint-nodejs
 	url = https://github.com/JAfar133/paint-nodejs
+	branch = main
 [submodule "paint-tiles"]
 	path = paint-tiles
 	url = https://github.com/JAfar133/paint-tiles
+	branch = master
